@@ -8,20 +8,27 @@
 
 ## 1. 概要
 
-### 1.1 ベースURL
+### 1.1 フレームワーク
+
+**バックエンド:** Django 4.2 + Django REST Framework
+
+### 1.2 ベースURL
 
 ```
 開発環境: http://localhost:8000
 本番環境: https://inventory.example.com
 ```
 
-### 1.2 認証方式
+### 1.3 認証方式
 
 - **方式:** JWT (JSON Web Token)
-- **ヘッダー:** `Authorization: Bearer {token}`
-- **トークン有効期限:** 期限なし
+- **ライブラリ:** djangorestframework-simplejwt
+- **ヘッダー:** `Authorization: Bearer {access_token}`
+- **トークン種別:**
+  - Access Token: 有効期限30分
+  - Refresh Token: 有効期限7日（将来実装）
 
-### 1.3 共通レスポンス形式
+### 1.4 共通レスポンス形式
 
 **成功時:**
 ```json
@@ -38,7 +45,7 @@
 }
 ```
 
-### 1.4 HTTPステータスコード
+### 1.5 HTTPステータスコード
 
 | コード | 意味 | 使用例 |
 |--------|------|--------|
@@ -1170,17 +1177,21 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
 
 ## 6. CORS設定
 
-**開発環境:**
-```
-Access-Control-Allow-Origin: http://localhost:3000
-Access-Control-Allow-Methods: GET, POST, PUT, PATCH, DELETE, OPTIONS
-Access-Control-Allow-Headers: Authorization, Content-Type
-Access-Control-Allow-Credentials: true
+**実装:** django-cors-headers パッケージ使用
+
+**開発環境（settings.py）:**
+```python
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000",
+]
+CORS_ALLOW_CREDENTIALS = True
 ```
 
 **本番環境:**
-```
-Access-Control-Allow-Origin: https://inventory.example.com
+```python
+CORS_ALLOWED_ORIGINS = [
+    "https://inventory.example.com",
+]
 ```
 
 ---
