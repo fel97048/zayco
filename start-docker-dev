@@ -1,0 +1,5 @@
+docker build -f backend/Dockerfile -t zayco-backend-dev backend
+docker build -f frontend/Dockerfile -t zayco-frontend-dev frontend
+
+docker run --rm -p 8000:8000 zayco-backend-dev
+docker run --rm -p 5173:5173 zayco-frontend-dev
